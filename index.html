@@ -6,6 +6,7 @@
     <title>Portfolio - John Doe</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -21,6 +22,78 @@
             min-height: 100vh;
             padding: 2rem;
             position: relative;
+        }
+
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1c2526; /* Match your body background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Ensure it's on top of everything */
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 183, 235, 0.1), rgba(28, 37, 38, 0.9), rgba(0, 183, 235, 0.1));
+            opacity: 0.6;
+        }
+
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .loader-logo {
+            width: 150px;
+            height: 150px;
+            filter: drop-shadow(0 0 15px rgba(0, 183, 235, 0.8));
+        }
+
+        .loader-logo .logo-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .loading-bar-container {
+            width: 250px;
+            height: 8px;
+            background-color: #2a3434;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 183, 235, 0.4);
+        }
+
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #00b7eb;
+            border-radius: 4px;
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            color: #e0e0e0;
+            text-shadow: 0 0 8px rgba(0, 183, 235, 0.3);
         }
 
         /* Background Effects */
@@ -275,6 +348,109 @@
             font-weight: 600;
         }
 
+        /* Music Player Styles */
+        .music-player-container {
+            background: #2a3434;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem; /* Adjusted margin */
+            /* margin-bottom: 2rem; KEEP THIS ONE FOR SPACING BELOW*/
+            box-shadow: 0 0 20px rgba(0, 183, 235, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center; /* Center items horizontally */
+        }
+
+        .currently-playing-box {
+            font-size: 1.1rem;
+            color: #00b7eb;
+            text-align: center;
+            width: 100%;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 183, 235, 0.3);
+        }
+
+        .music-controls {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            justify-content: center;
+        }
+
+        .music-controls button {
+            background: #00b7eb;
+            color: #1c2526;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .music-controls button:hover {
+            background: #0099cc;
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0, 183, 235, 0.7);
+        }
+
+        .music-controls button i {
+            font-size: 1.2rem;
+        }
+
+        /* Spinning Cube Styles */
+        .spinning-cube-container {
+            width: 100px; /* Adjust size as needed */
+            height: 100px; /* Adjust size as needed */
+            margin: 1.5rem auto 2rem; /* Center the cube and add space below */
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinning-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(30deg); /* Initial perspective */
+            animation: cubeSpin 15s infinite linear;
+        }
+
+        .spinning-cube .face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(0, 183, 235, 0.3); /* Semi-transparent blue */
+            border: 2px solid #00b7eb; /* Blue border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #e0e0e0;
+            box-shadow: 0 0 15px rgba(0, 183, 235, 0.6);
+        }
+
+        /* Cube Face Positioning */
+        .spinning-cube .front  { transform: rotateY(0deg) translateZ(50px); }
+        .spinning-cube .back   { transform: rotateX(180deg) translateZ(50px); }
+        .spinning-cube .right  { transform: rotateY(90deg) translateZ(50px); }
+        .spinning-cube .left   { transform: rotateY(-90deg) translateZ(50px); }
+        .spinning-cube .top    { transform: rotateX(90deg) translateZ(50px); }
+        .spinning-cube .bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+        @keyframes cubeSpin {
+            from { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            to { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             body {
@@ -295,10 +471,34 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
+            .music-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div id="loading-screen">
+        <div class="loader-bg"></div>
+        <div class="loader-content">
+            <div class="loader-logo">
+                <svg viewBox="0 0 100 100" class="logo-svg">
+                    <path d="M50,5 L95,50 L50,95 L5,50 Z" fill="#00b7eb" />
+                </svg>
+            </div>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <p class="loading-text">Loading Awesome Stuff...</p>
+        </div>
+        <audio id="loading-music" loop>
+            <source src="music/loading_screen_loop.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
     <div class="background-container">
         <div class="gradient-overlay"></div>
         <div class="grid-overlay"></div>
@@ -316,6 +516,17 @@
             <div class="user-info">
                 <h1 class="animate-text">John Doe#1234</h1>
                 <p class="animate-text">Web Developer | Animation Enthusiast | UI/UX Innovator</p>
+            </div>
+        </div>
+
+        <div class="spinning-cube-container">
+            <div class="spinning-cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
             </div>
         </div>
 
@@ -373,228 +584,422 @@
                 </div>
             </div>
         </div>
+
+        <div class="music-player-container animate-player">
+            <div class="currently-playing-box">
+                Currently Playing: <span id="current-track-name">No Music Loaded</span>
+            </div>
+            <div class="music-controls">
+                <button id="shuffle-music-btn" title="Play Random Music">
+                    <i class="fas fa-random"></i> Shuffle
+                </button>
+                <button id="play-pause-btn" title="Play/Pause Music">
+                    <i class="fas fa-play" id="play-pause-icon"></i>
+                </button>
+                <button id="next-song-btn" title="Play Next Song">
+                    <i class="fas fa-step-forward"></i> Next
+                </button>
+            </div>
+            <audio id="main-audio-player" src="" preload="auto"></audio>
+        </div>
     </main>
 
     <script>
-        // Optimize by running animations after page load
         window.addEventListener('load', () => {
-            // Gradient Overlay Animation
-            anime({
-                targets: '.gradient-overlay',
-                opacity: [0.4, 0.6, 0.4],
-                duration: 7000,
-                easing: 'easeInOutSine',
-                loop: true,
-            });
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingBar = document.querySelector('.loading-bar');
+            const loadingMusic = document.getElementById('loading-music');
 
-            // Grid Overlay Pulse
-            anime({
-                targets: '.grid-overlay',
-                opacity: [0.3, 0.5, 0.3],
-                duration: 5000,
-                easing: 'easeInOutSine',
-                loop: true,
-            });
-
-            // Morphing Background Shape (Reduced Keyframes)
-            anime({
-                targets: '.morph-shape path',
-                d: [
-                    'M0,0 C30,10 70,10 100,0 L100,100 L0,100 Z',
-                    'M0,0 C20,30 80,20 100,0 L100,100 L0,100 Z',
-                ],
-                duration: 6000,
-                easing: 'easeInOutSine',
-                loop: true,
-            });
-
-            // Banner Animation
-            anime({
-                targets: '.banner',
-                background: [
-                    'linear-gradient(45deg, #00b7eb, #0099cc, #1c2526)',
-                    'linear-gradient(45deg, #0099cc, #1c2526, #00b7eb)',
-                ],
-                duration: 6000,
-                easing: 'easeInOutSine',
-                loop: true,
-            });
-
-            // User Card Animation
-            anime({
-                targets: '.animate-card',
-                translateY: [150, 0],
-                opacity: [0, 1],
-                scale: [0.9, 1],
-                duration: 1500,
-                easing: 'easeOutExpo',
-            });
-
-            // Letter Animation for User Card Title
-            const userTitle = document.querySelector('.user-info h1');
-            userTitle.innerHTML = userTitle.textContent.replace(/\S/g, '<span class="letter">$&</span>');
-            anime({
-                targets: '.user-info .letter',
-                translateY: [30, 0],
-                opacity: [0, 1],
-                duration: 1000,
-                delay: anime.stagger(60),
-                easing: 'easeOutElastic',
-            });
-
-            anime({
-                targets: '.user-info .animate-text',
-                translateX: [80, 0],
-                opacity: [0, 1],
-                duration: 1200,
-                delay: anime.stagger(300),
-                easing: 'easeOutExpo',
-            });
-
-            // Tab Button Animation
-            anime({
-                targets: '.animate-tab',
-                translateY: [50, 0],
-                opacity: [0, 1],
-                scale: [0.8, 1],
-                duration: 1200,
-                delay: anime.stagger(200),
-                easing: 'easeOutElastic',
-            });
-
-            // Tab Content Animation
-            function animateTabContent(tabId) {
-                anime({
-                    targets: `#${tabId} .animate-title`,
-                    translateY: [100, 0],
-                    opacity: [0, 1],
-                    scale: [0.9, 1],
-                    duration: 1200,
-                    easing: 'easeOutBounce',
-                });
-
-                const title = document.querySelector(`#${tabId} .animate-title`);
-                title.innerHTML = title.textContent.replace(/\S/g, '<span class="letter">$&</span>');
-                anime({
-                    targets: `#${tabId} .letter`,
-                    translateY: [30, 0],
-                    opacity: [0, 1],
-                    duration: 1000,
-                    delay: anime.stagger(50),
-                    easing: 'easeOutExpo',
-                });
-
-                anime({
-                    targets: `#${tabId} .animate-text, #${tabId} .animate-contact, #${tabId} .animate-donate`,
-                    translateX: (el, i) => [(i % 2 === 0 ? -200 : 200), 0],
-                    opacity: [0, 1],
-                    scale: [0.8, 1],
-                    duration: 1400,
-                    delay: anime.stagger(300),
-                    easing: 'easeOutElastic',
-                });
-
-                anime({
-                    targets: `#${tabId} .role-icon, #${tabId} .connection-icon, #${tabId} .donate-icon`,
-                    scale: [0, 1.2, 1],
-                    opacity: [0, 1],
-                    rotate: [10, 0],
-                    duration: 1000,
-                    delay: anime.stagger(200),
-                    easing: 'easeOutElastic',
+            // Play background music for loading screen
+            if (loadingMusic) {
+                loadingMusic.volume = 0.3; // Set initial volume
+                loadingMusic.play().catch(error => {
+                    console.log('Loading music autoplay prevented:', error);
                 });
             }
 
-            // Tab Switching Logic (Reload Animations)
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const tabContents = document.querySelectorAll('.tab-content');
+            // Loading Bar Animation
+            anime({
+                targets: loadingBar,
+                width: ['0%', '100%'],
+                duration: 2500, // Total duration for loading
+                easing: 'easeInOutQuad',
+                complete: function() {
+                    // After loading bar animation, animate out the loading screen
+                    anime({
+                        targets: loadingScreen,
+                        opacity: 0,
+                        duration: 800,
+                        easing: 'easeOutQuad',
+                        complete: function() {
+                            loadingScreen.classList.add('hidden');
+                            if (loadingMusic) {
+                                loadingMusic.pause();
+                                loadingMusic.currentTime = 0; // Reset for next load
+                            }
+                            // Now, start your portfolio animations
+                            startPortfolioAnimations();
+                        }
+                    });
+                }
+            });
 
-            function switchTab(tabId) {
-                tabButtons.forEach(button => button.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
+            // Loader Logo Animation (SVG Path Morphing and Rotation)
+            anime({
+                targets: '.loader-logo .logo-svg path',
+                d: [
+                    { value: 'M50,5 L95,50 L50,95 L5,50 Z' },
+                    { value: 'M50,15 L85,50 L50,85 L15,50 Z' },
+                    { value: 'M50,5 L95,50 L50,95 L5,50 Z' }
+                ],
+                duration: 2000,
+                easing: 'easeInOutSine',
+                loop: true
+            });
 
-                const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
-                activeButton.classList.add('active');
-                document.querySelector(`#${tabId}`).classList.add('active');
+            anime({
+                targets: '.loader-logo',
+                rotate: '360deg',
+                duration: 3000,
+                easing: 'linear',
+                loop: true
+            });
 
-                // Always animate content on tab switch
-                animateTabContent(tabId);
+            // Loading Text Animation
+            anime({
+                targets: '.loading-text',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 1000,
+                delay: anime.stagger(100),
+                easing: 'easeOutExpo'
+            });
 
+            // Wrap your existing portfolio animations in a function
+            function startPortfolioAnimations() {
+                // Gradient Overlay Animation
                 anime({
-                    targets: `#${tabId}`,
-                    opacity: [0, 1],
-                    translateY: [40, 0],
-                    duration: 1000,
-                    easing: 'easeOutExpo',
-                });
-
-                // Update glow pulse for active tab only
-                anime({
-                    targets: '.tab-button.active',
-                    boxShadow: [
-                        '0 0 10px rgba(0, 183, 235, 0.5)',
-                        '0 0 20px rgba(0, 183, 235, 0.9)',
-                        '0 0 10px rgba(0, 183, 235, 0.5)',
-                    ],
-                    duration: 3000,
+                    targets: '.gradient-overlay',
+                    opacity: [0.4, 0.6, 0.4],
+                    duration: 7000,
                     easing: 'easeInOutSine',
                     loop: true,
                 });
 
-                // Remove glow from inactive tabs
+                // Grid Overlay Pulse
                 anime({
-                    targets: '.tab-button:not(.active)',
-                    boxShadow: ['0 0 0 rgba(0, 183, 235, 0)'],
-                    duration: 500,
+                    targets: '.grid-overlay',
+                    opacity: [0.3, 0.5, 0.3],
+                    duration: 5000,
+                    easing: 'easeInOutSine',
+                    loop: true,
+                });
+
+                // Morphing Background Shape (Reduced Keyframes)
+                anime({
+                    targets: '.morph-shape path',
+                    d: [
+                        'M0,0 C30,10 70,10 100,0 L100,100 L0,100 Z',
+                        'M0,0 C20,30 80,20 100,0 L100,100 L0,100 Z',
+                    ],
+                    duration: 6000,
+                    easing: 'easeInOutSine',
+                    loop: true,
+                });
+
+                // Banner Animation
+                anime({
+                    targets: '.banner',
+                    background: [
+                        'linear-gradient(45deg, #00b7eb, #0099cc, #1c2526)',
+                        'linear-gradient(45deg, #0099cc, #1c2526, #00b7eb)',
+                    ],
+                    duration: 6000,
+                    easing: 'easeInOutSine',
+                    loop: true,
+                });
+
+                // User Card Animation
+                anime({
+                    targets: '.animate-card',
+                    translateY: [150, 0],
+                    opacity: [0, 1],
+                    scale: [0.9, 1],
+                    duration: 1500,
                     easing: 'easeOutExpo',
                 });
+
+                // Letter Animation for User Card Title
+                const userTitle = document.querySelector('.user-info h1');
+                userTitle.innerHTML = userTitle.textContent.replace(/\S/g, '<span class="letter">$&</span>');
+                anime({
+                    targets: '.user-info .letter',
+                    translateY: [30, 0],
+                    opacity: [0, 1],
+                    duration: 1000,
+                    delay: anime.stagger(60),
+                    easing: 'easeOutElastic',
+                });
+
+                anime({
+                    targets: '.user-info .animate-text',
+                    translateX: [80, 0],
+                    opacity: [0, 1],
+                    duration: 1200,
+                    delay: anime.stagger(300),
+                    easing: 'easeOutExpo',
+                });
+
+                // Tab Button Animation
+                anime({
+                    targets: '.animate-tab',
+                    translateY: [50, 0],
+                    opacity: [0, 1],
+                    scale: [0.8, 1],
+                    duration: 1200,
+                    delay: anime.stagger(200),
+                    easing: 'easeOutElastic',
+                });
+
+                // Tab Content Animation
+                function animateTabContent(tabId) {
+                    anime({
+                        targets: `#${tabId} .animate-title`,
+                        translateY: [100, 0],
+                        opacity: [0, 1],
+                        scale: [0.9, 1],
+                        duration: 1200,
+                        easing: 'easeOutBounce',
+                    });
+
+                    // Ensure the title is re-wrapped for letter animation each time
+                    const titleElement = document.querySelector(`#${tabId} .animate-title`);
+                    if (titleElement) { // Check if element exists
+                        titleElement.innerHTML = titleElement.textContent.replace(/\S/g, '<span class="letter">$&</span>');
+                        anime({
+                            targets: `#${tabId} .letter`,
+                            translateY: [30, 0],
+                            opacity: [0, 1],
+                            duration: 1000,
+                            delay: anime.stagger(50),
+                            easing: 'easeOutExpo',
+                        });
+                    }
+
+                    anime({
+                        targets: `#${tabId} .animate-text, #${tabId} .animate-contact, #${tabId} .animate-donate`,
+                        translateX: (el, i) => [(i % 2 === 0 ? -200 : 200), 0],
+                        opacity: [0, 1],
+                        scale: [0.8, 1],
+                        duration: 1400,
+                        delay: anime.stagger(300),
+                        easing: 'easeOutElastic',
+                    });
+
+                    anime({
+                        targets: `#${tabId} .role-icon, #${tabId} .connection-icon, #${tabId} .donate-icon`,
+                        scale: [0, 1.2, 1],
+                        opacity: [0, 1],
+                        rotate: [10, 0],
+                        duration: 1000,
+                        delay: anime.stagger(200),
+                        easing: 'easeOutElastic',
+                    });
+                }
+
+                // Tab Switching Logic (Reload Animations)
+                const tabButtons = document.querySelectorAll('.tab-button');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                function switchTab(tabId) {
+                    tabButtons.forEach(button => button.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+                    activeButton.classList.add('active');
+                    document.querySelector(`#${tabId}`).classList.add('active');
+
+                    // Always animate content on tab switch
+                    animateTabContent(tabId);
+
+                    anime({
+                        targets: `#${tabId}`,
+                        opacity: [0, 1],
+                        translateY: [40, 0],
+                        duration: 1000,
+                        easing: 'easeOutExpo',
+                    });
+
+                    // Update glow pulse for active tab only
+                    anime({
+                        targets: '.tab-button.active',
+                        boxShadow: [
+                            '0 0 10px rgba(0, 183, 235, 0.5)',
+                            '0 0 20px rgba(0, 183, 235, 0.9)',
+                            '0 0 10px rgba(0, 183, 235, 0.5)',
+                        ],
+                        duration: 3000,
+                        easing: 'easeInOutSine',
+                        loop: true,
+                    });
+
+                    // Remove glow from inactive tabs
+                    anime({
+                        targets: '.tab-button:not(.active)',
+                        boxShadow: ['0 0 0 rgba(0, 183, 235, 0)'],
+                        duration: 500,
+                        easing: 'easeOutExpo',
+                    });
+                }
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabId = button.getAttribute('data-tab');
+                        switchTab(tabId);
+                    });
+                });
+
+                // Initial Animation for Default Tab
+                animateTabContent('about-me');
+
+                // User Card Glow Pulse
+                anime({
+                    targets: '.user-card',
+                    boxShadow: [
+                        '0 0 15px rgba(0, 183, 235, 0.5)',
+                        '0 0 25px rgba(0, 183, 235, 0.9)',
+                        '0 0 15px rgba(0, 183, 235, 0.5)',
+                    ],
+                    duration: 3500,
+                    easing: 'easeInOutSine',
+                    loop: true,
+                });
+
+                // Hover Animation for Links and Buttons
+                const interactiveElements = document.querySelectorAll('.tab-button, .connections-info a, .music-controls button');
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        anime({
+                            targets: el,
+                            scale: [1, 1.05],
+                            duration: 400,
+                            easing: 'easeOutExpo',
+                        });
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        anime({
+                            targets: el,
+                            scale: [1.05, 1],
+                            duration: 400,
+                            easing: 'easeOutExpo',
+                        });
+                    });
+                });
+
+                // --- Music Player Logic ---
+                const mainAudioPlayer = document.getElementById('main-audio-player');
+                const shuffleMusicBtn = document.getElementById('shuffle-music-btn');
+                const playPauseBtn = document.getElementById('play-pause-btn');
+                const playPauseIcon = document.getElementById('play-pause-icon');
+                const nextSongBtn = document.getElementById('next-song-btn'); // New button
+                const currentTrackName = document.getElementById('current-track-name');
+
+                // IMPORTANT: Replace these with your actual music file paths
+                const musicFiles = [
+                    'music/song1.mp3', // Example: 'music/your-song-title-1.mp3'
+                    'music/song2.mp3', // Example: 'music/your-song-title-2.mp3'
+                    'music/song3.mp3',
+                    'music/song4.mp3',
+                    'music/song5.mp3'
+                ];
+
+                let currentTrackIndex = -1; // To keep track of the current song
+
+                function playSelectedMusic(trackPath, index) {
+                    mainAudioPlayer.src = trackPath;
+                    currentTrackIndex = index; // Update index
+                    mainAudioPlayer.play().then(() => {
+                        playPauseIcon.classList.remove('fa-play');
+                        playPauseIcon.classList.add('fa-pause');
+                        // Display clean song name (removes 'music/' and '.mp3')
+                        currentTrackName.textContent = "Currently Playing: " + trackPath.split('/').pop().replace(/\.mp3$/, '').replace(/_/g, ' ');
+                    }).catch(error => {
+                        console.error('Error playing music:', error);
+                        // User interaction might be needed for initial play
+                        currentTrackName.textContent = "Autoplay blocked. Click play!";
+                        playPauseIcon.classList.remove('fa-pause');
+                        playPauseIcon.classList.add('fa-play');
+                    });
+                }
+
+                function playRandomMusic() {
+                    if (musicFiles.length === 0) {
+                        currentTrackName.textContent = "No music files available.";
+                        return;
+                    }
+                    let randomIndex;
+                    do {
+                        randomIndex = Math.floor(Math.random() * musicFiles.length);
+                    } while (randomIndex === currentTrackIndex && musicFiles.length > 1); // Avoid playing the same song twice in a row if there's more than one
+                    
+                    playSelectedMusic(musicFiles[randomIndex], randomIndex);
+                }
+
+                function playNextMusic() {
+                    if (musicFiles.length === 0) {
+                        currentTrackName.textContent = "No music files available.";
+                        return;
+                    }
+                    currentTrackIndex = (currentTrackIndex + 1) % musicFiles.length; // Loop back to start
+                    playSelectedMusic(musicFiles[currentTrackIndex], currentTrackIndex);
+                }
+
+                function togglePlayPause() {
+                    if (mainAudioPlayer.paused) {
+                        if (!mainAudioPlayer.src || mainAudioPlayer.src === window.location.href) {
+                            // If no song is loaded or src is just base URL, play a random song
+                            playRandomMusic();
+                        } else {
+                            mainAudioPlayer.play().then(() => {
+                                playPauseIcon.classList.remove('fa-play');
+                                playPauseIcon.classList.add('fa-pause');
+                            }).catch(error => {
+                                console.error('Error resuming music:', error);
+                                currentTrackName.textContent = "Playback error. Try shuffle.";
+                            });
+                        }
+                    } else {
+                        mainAudioPlayer.pause();
+                        playPauseIcon.classList.remove('fa-pause');
+                        playPauseIcon.classList.add('fa-play');
+                    }
+                }
+
+                // Event Listeners for Music Player
+                shuffleMusicBtn.addEventListener('click', playRandomMusic);
+                playPauseBtn.addEventListener('click', togglePlayPause);
+                nextSongBtn.addEventListener('click', playNextMusic); // Event listener for next song button
+
+                // When a song ends, automatically play the next song in the list
+                mainAudioPlayer.addEventListener('ended', () => {
+                    playNextMusic();
+                });
+
+                // Music Player Animation - adjusted delay since it's lower on the page
+                anime({
+                    targets: '.animate-player',
+                    translateY: [100, 0],
+                    opacity: [0, 1],
+                    scale: [0.9, 1],
+                    duration: 1500,
+                    easing: 'easeOutExpo',
+                    delay: 1000, // Increased delay to appear after tabs
+                });
+
+                // --- Spinning Cube Animation (using CSS animation for simplicity and performance) ---
+                // The spinning-cube has a CSS animation defined: cubeSpin
+                // This will run continuously without needing specific JS control unless you want to pause/play it.
             }
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabId = button.getAttribute('data-tab');
-                    switchTab(tabId);
-                });
-            });
-
-            // Initial Animation for Default Tab
-            animateTabContent('about-me');
-
-            // User Card Glow Pulse
-            anime({
-                targets: '.user-card',
-                boxShadow: [
-                    '0 0 15px rgba(0, 183, 235, 0.5)',
-                    '0 0 25px rgba(0, 183, 235, 0.9)',
-                    '0 0 15px rgba(0, 183, 235, 0.5)',
-                ],
-                duration: 3500,
-                easing: 'easeInOutSine',
-                loop: true,
-            });
-
-            // Hover Animation for Links and Buttons
-            const interactiveElements = document.querySelectorAll('.tab-button, .connections-info a');
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    anime({
-                        targets: el,
-                        scale: [1, 1.1],
-                        color: ['#b0b0b0', '#0099cc'],
-                        duration: 400,
-                        easing: 'easeOutExpo',
-                    });
-                });
-                el.addEventListener('mouseleave', () => {
-                    anime({
-                        targets: el,
-                        scale: [1.1, 1],
-                        color: ['#0099cc', el.classList.contains('tab-button') && el.classList.contains('active') ? '#1c2526' : '#b0b0b0'],
-                        duration: 400,
-                        easing: 'easeOutExpo',
-                    });
-                });
-            });
         });
     </script>
 </body>
