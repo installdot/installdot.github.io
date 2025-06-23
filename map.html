@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Map</title>
+
+    <meta property="og:title" content="LinkMap">
+    <meta property="og:description" content="Map.">
+    <meta property="og:image" content="https://www.yourwebsite.com/path/to/your-banner-image.jpg">
+    <meta property="og:url" content="https://www.yourwebsite.com/index.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Link Hub">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@yourtwitterhandle">
+    <meta name="twitter:creator" content="@yourtwitterhandle">
+    <meta name="twitter:title" content="Test">
+    <meta name="twitter:description" content="Test.">
+    <meta name="twitter:image" content="https://www.yourwebsite.com/path/to/your-banner-image.jpg">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px; /* Adjusted padding after removing banner */
+            background-color: #f0f2f5; /* Light gray background */
+            color: #333;
+            min-height: 100vh;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Main page title styling */
+        h1 {
+            color: #2c3e50; /* Darker blue-gray */
+            margin-bottom: 40px;
+            font-size: 2.8em; /* Slightly smaller than banner H1 */
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            padding: 0 20px; /* Ensure title has horizontal padding */
+        }
+
+        #buttonContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .anime-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            cursor: pointer;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .anime-button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            transition: background-color 0.2s ease-out;
+        }
+
+        .anime-card:hover .anime-button {
+            background-color: #2980b9;
+        }
+
+        .creator-name {
+            font-size: 0.9em;
+            color: #555;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .loading-message {
+            font-size: 1.2em;
+            color: #777;
+            margin-top: 50px;
+            text-align: center;
+            width: 100%;
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <h1>MochiSilly Link Hub</h1>
+
+    <div id="buttonContainer">
+        <p class="loading-message">Loading final links...</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const buttonContainer = document.getElementById('buttonContainer');
+
+            try {
+                const response = await fetch('url.txt');
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load url.txt: ${response.statusText}`);
+                }
+
+                const textData = await response.text();
+                const lines = textData.split('\n').filter(line => line.trim() !== '');
+
+                buttonContainer.innerHTML = '';
+
+                if (lines.length === 0) {
+                    buttonContainer.innerHTML = '<p class="loading-message">No links found in url.txt. Please check the file format.</p>';
+                    return;
+                }
+
+                lines.forEach((line, index) => {
+                    const parts = line.trim().split(' ');
+                    if (parts.length >= 3) {
+                        const url = parts[0];
+                        const buttonName = parts[1];
+                        const creator = parts.slice(2).join(' ');
+
+                        const card = document.createElement('div');
+                        card.classList.add('anime-card');
+                        card.onclick = () => window.open(url, '_blank');
+
+                        const button = document.createElement('button');
+                        button.classList.add('anime-button');
+                        button.textContent = buttonName;
+
+                        const creatorSpan = document.createElement('p');
+                        creatorSpan.classList.add('creator-name');
+                        creatorSpan.textContent = `Creator: ${creator}`;
+
+                        card.appendChild(button);
+                        card.appendChild(creatorSpan);
+
+                        buttonContainer.appendChild(card);
+
+                        anime({
+                            targets: card,
+                            opacity: [0, 1],
+                            translateY: [30, 0],
+                            scale: [0.95, 1],
+                            delay: anime.stagger(100, {start: 100}),
+                            easing: 'easeOutQuad',
+                            duration: 600
+                        });
+                    } else {
+                        console.warn(`Skipping malformed line in url.txt: ${line}`);
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error fetching or processing url.txt:', error);
+                buttonContainer.innerHTML = '<p class="loading-message" style="color: red;">Error loading data. Please ensure `url.txt` exists and a local server is running.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
