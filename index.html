@@ -3,993 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Tran Hai</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Change Mail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
         body {
-            background: #1c2526;
-            color: #e0e0e0;
-            overflow-x: hidden;
-            min-height: 100vh;
-            padding: 2rem;
-            position: relative;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
         }
-
-      
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #1c2526; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999; 
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 1s ease-out, visibility 1s ease-out;
+        /* Elegant custom scrollbar for text areas */
+        textarea::-webkit-scrollbar {
+            width: 6px;
         }
-
-        #loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
+        textarea::-webkit-scrollbar-track {
+            background: transparent;
         }
-
-        .loader-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 183, 235, 0.1), rgba(28, 37, 38, 0.9), rgba(0, 183, 235, 0.1));
-            opacity: 0.6;
+        textarea::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
         }
-
-        .loader-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .loader-logo {
-            width: 150px;
-            height: 150px;
-            filter: drop-shadow(0 0 15px rgba(0, 183, 235, 0.8));
-        }
-
-        .loader-logo .logo-svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .loading-bar-container {
-            width: 250px;
-            height: 8px;
-            background-color: #2a3434;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 183, 235, 0.4);
-        }
-
-        .loading-bar {
-            width: 0%;
-            height: 100%;
-            background-color: #00b7eb;
-            border-radius: 4px;
-        }
-
-        .loading-text {
-            font-size: 1.2rem;
-            color: #e0e0e0;
-            text-shadow: 0 0 8px rgba(0, 183, 235, 0.3);
-        }
-
-        /* Background Effects */
-        .background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-        }
-
-        .gradient-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 183, 235, 0.15), rgba(28, 37, 38, 0.85), rgba(0, 183, 235, 0.15));
-            opacity: 0.4;
-        }
-
-        .grid-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 20px,
-                rgba(0, 183, 235, 0.05) 20px,
-                rgba(0, 183, 235, 0.05) 21px
-            ),
-            repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 20px,
-                rgba(0, 183, 235, 0.05) 20px,
-                rgba(0, 183, 235, 0.05) 21px
-            );
-            opacity: 0.3;
-        }
-
-        .morph-shape {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.2;
-        }
-
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* User Card */
-        .user-card {
-            background: #2a3434;
-            border-radius: 12px;
-            padding: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 0 20px rgba(0, 183, 235, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .banner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(45deg, #00b7eb, #0099cc, #1c2526);
-            z-index: -1;
-        }
-
-        .banner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 183, 235, 0.4), transparent);
-            transition: transform 1.2s;
-        }
-
-        .user-card:hover .banner-overlay {
-            transform: translateX(100%);
-        }
-
-        .user-card img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid #00b7eb;
-            box-shadow: 0 0 15px rgba(0, 183, 235, 0.5);
-            transition: transform 0.4s, box-shadow 0.4s;
-        }
-
-        .user-card img:hover {
-            transform: scale(1.2) rotate(8deg);
-            box-shadow: 0 0 25px rgba(0, 183, 235, 0.8);
-        }
-
-        .user-info h1 {
-            font-size: 2.2rem;
-            color: #00b7eb;
-            text-shadow: 0 0 10px rgba(0, 183, 235, 0.4);
-        }
-
-        .user-info p {
-            font-size: 1.2rem;
-            color: #b0b0b0;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            justify-content: center;
-        }
-
-        .tab-button {
-            padding: 0.8rem 1.5rem;
-            background: #2a3434;
-            color: #b0b0b0;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            position: relative;
-            overflow: hidden;
-            transition: background 0.3s, color 0.3s, transform 0.3s;
-        }
-
-        .tab-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(0, 183, 235, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        .tab-button:hover::before, .tab-button.active::before {
-            width: 200px;
-            height: 200px;
-        }
-
-        .tab-button:hover, .tab-button.active {
-            background: #00b7eb;
-            color: #1c2526;
-            transform: translateY(-4px);
-            box-shadow: 0 0 15px rgba(0, 183, 235, 0.6);
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            background: #2a3434;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .tab-content h2 {
-            font-size: 2rem;
-            color: #00b7eb;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 10px rgba(0, 183, 235, 0.3);
-        }
-
-        .about-content p, .roles-content p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #b0b0b0;
-        }
-
-        .roles-content p {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .role-icon {
-            width: 20px;
-            height: 20px;
-            background: #00b7eb;
-            border-radius: 4px;
-            display: inline-block;
-        }
-
-        .connections-info, .donate-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .connection-item, .donate-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .connection-icon, .donate-icon {
-            width: 24px;
-            height: 24px;
-            background: #00b7eb;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1c2526;
-            font-size: 0.9rem;
-        }
-
-        .connections-info p, .donate-info p {
-            font-size: 1.2rem;
-            color: #b0b0b0;
-        }
-
-        .connections-info a {
-            color: #00b7eb;
-            text-decoration: none;
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-
-        .connections-info a:hover {
-            color: #0099cc;
-            text-shadow: 0 0 10px rgba(0, 183, 235, 0.7);
-        }
-
-        .donate-info span {
-            color: #00b7eb;
-            font-weight: 600;
-        }
-
-        
-        .music-player-container {
-            background: #2a3434;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem; 
-            /* margin-bottom: 2rem; */
-            box-shadow: 0 0 20px rgba(0, 183, 235, 0.2);
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: center; 
-        }
-
-        .currently-playing-box {
-            font-size: 1.1rem;
-            color: #00b7eb;
-            text-align: center;
-            width: 100%;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(0, 183, 235, 0.3);
-        }
-
-        .music-controls {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            flex-wrap: wrap; 
-            justify-content: center;
-        }
-
-        .music-controls button {
-            background: #00b7eb;
-            color: #1c2526;
-            border: none;
-            border-radius: 8px;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .music-controls button:hover {
-            background: #0099cc;
-            transform: translateY(-2px);
-            box-shadow: 0 0 10px rgba(0, 183, 235, 0.7);
-        }
-
-        .music-controls button i {
-            font-size: 1.2rem;
-        }
-
-        
-        .spinning-cube-container {
-            width: 100px; 
-            height: 100px; 
-            margin: 1.5rem auto 2rem; 
-            perspective: 1000px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinning-cube {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transform: rotateX(-30deg) rotateY(30deg); 
-            animation: cubeSpin 15s infinite linear;
-        }
-
-        .spinning-cube .face {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: rgba(0, 183, 235, 0.3); 
-            border: 2px solid #00b7eb; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: #e0e0e0;
-            box-shadow: 0 0 15px rgba(0, 183, 235, 0.6);
-        }
-
-        
-        .spinning-cube .front  { transform: rotateY(0deg) translateZ(50px); }
-        .spinning-cube .back   { transform: rotateX(180deg) translateZ(50px); }
-        .spinning-cube .right  { transform: rotateY(90deg) translateZ(50px); }
-        .spinning-cube .left   { transform: rotateY(-90deg) translateZ(50px); }
-        .spinning-cube .top    { transform: rotateX(90deg) translateZ(50px); }
-        .spinning-cube .bottom { transform: rotateX(-90deg) translateZ(50px); }
-
-        @keyframes cubeSpin {
-            from { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-            to { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-        }
-
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-
-            .user-card {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .user-card img {
-                width: 100px;
-                height: 100px;
-            }
-
-            .tabs {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .music-controls {
-                flex-direction: column;
-                gap: 1rem;
-            }
+        textarea::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
         }
     </style>
 </head>
-<body>
-    <div id="loading-screen">
-        <div class="loader-bg"></div>
-        <div class="loader-content">
-            <div class="loader-logo">
-                <svg viewBox="0 0 100 100" class="logo-svg">
-                    <path d="M50,5 L95,50 L50,95 L5,50 Z" fill="#00b7eb" />
-                </svg>
-            </div>
-            <div class="loading-bar-container">
-                <div class="loading-bar"></div>
-            </div>
-            <p class="loading-text">Loading Awesome Stuff...</p>
-        </div>
-        <audio id="loading-music" loop>
-            <source src="music/loading_screen_loop.mp3" type="audio/mpeg">
-            TestPlaceHolder🥀
-        </audio>
-    </div>
-
-    <div class="background-container">
-        <div class="gradient-overlay"></div>
-        <div class="grid-overlay"></div>
-        <svg class="morph-shape" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M0,0 C30,10 70,10 100,0 L100,100 L0,100 Z" fill="rgba(0, 183, 235, 0.2)" />
-        </svg>
-    </div>
-
-    <main class="main-content">
-        <div class="user-card animate-card">
-            <div class="banner">
-                <div class="banner-overlay"></div>
-            </div>
-            <img src="https://raw.githubusercontent.com/installdot/installdot.github.io/refs/heads/main/IMG_1029.jpeg" alt="Avatar">
-            <div class="user-info">
-                <h1 class="animate-text">Siesta#1234</h1>
-                <p class="animate-text">| MythicMob Cooker |</p>
-            </div>
-        </div>
-
-        <div class="spinning-cube-container">
-            <div class="spinning-cube">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face right"></div>
-                <div class="face left"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
-            </div>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-button animate-tab active" data-tab="about-me">About Me</button>
-            <button class="tab-button animate-tab" data-tab="roles">Roles</button>
-            <button class="tab-button animate-tab" data-tab="connections">Contact</button>
-            <button class="tab-button animate-tab" data-tab="donate">Donate</button>
-        </div>
-
-        <div id="about-me" class="tab-content active animate-content">
-            <h2 class="animate-title">About Me</h2>
-            <div class="about-content">
-                <p class="animate-text">Trần Quang Hải...chỉ là một người bình thường thôi...</p>
-            </div>
-        </div>
-
-        <div id="roles" class="tab-content animate-content">
-            <h2 class="animate-title">Roles</h2>
-            <div class="roles-content">
-                <p class="animate-text"><span class="role-icon"></span> Placeholder thôi.Không biết ghi gì hết:3</p>
-                <p class="animate-text"><span class="role-icon"></span> Placeholder thôi.Không biết ghi gì hết:3</p>
-                <p class="animate-text"><span class="role-icon"></span> Placeholder thôi.Không biết ghi gì hết:3</p>
-            </div>
-        </div>
-
-        <div id="connections" class="tab-content animate-content">
-            <h2 class="animate-title">Contact</h2>
-            <div class="connections-info">
-                <div class="connection-item animate-contact">
-                    <span class="connection-icon">Z</span>
-                    <p>Zalo: <a href="tel:+84343280438">0343280438</a></p>
-                </div>
-                <div class="connection-item animate-contact">
-                    <span class="connection-icon">M</span>
-                    <p>Messenger/Facebook: <a href="https://m.me/mochiteyvat" target="_blank">m.me/mochiteyvat</a></p>
-                </div>
-                <div class="connection-item animate-contact">
-                    <span class="connection-icon">T</span>
-                    <p>Telegram: <a href="https://t.me/mochiteyvat" target="_blank">t.me/mochiteyvat</a></p>
-                </div>
-            </div>
-        </div>
-
-        <div id="donate" class="tab-content animate-content">
-            <h2 class="animate-title">Donate</h2>
-            <div class="donate-info">
-                <div class="donate-item animate-donate">
-                    <span class="donate-icon">MB</span>
-                    <p>MBBank: <span>89998999999899</span></p>
-                </div>
-                <div class="donate-item animate-donate">
-                    <span class="donate-icon">MM</span>
-                    <p>Momo: <span>0343280438</span></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="music-player-container animate-player">
-            <div class="currently-playing-box">
-                Currently Playing: <span id="current-track-name">No Music Loaded</span>
-            </div>
-            <div class="music-controls">
-                <button id="shuffle-music-btn" title="Play Random Music">
-                    <i class="fas fa-random"></i> Shuffle
-                </button>
-                <button id="play-pause-btn" title="Play/Pause Music">
-                    <i class="fas fa-play" id="play-pause-icon"></i>
-                </button>
-                <button id="next-song-btn" title="Play Next Song">
-                    <i class="fas fa-step-forward"></i> Next
-                </button>
-            </div>
-            <audio id="main-audio-player" src="" preload="auto"></audio>
-        </div>
-    </main>
+<body class="min-h-screen text-slate-800 flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8">
 
     <script>
-        window.addEventListener('load', () => {
-            const loadingScreen = document.getElementById('loading-screen');
-            const loadingBar = document.querySelector('.loading-bar');
-            const loadingMusic = document.getElementById('loading-music');
+        const galleryGrid = document.getElementById('gallery-grid');
 
-            
-            if (loadingMusic) {
-                loadingMusic.volume = 0.3; 
-                loadingMusic.play().catch(error => {
-                    console.log('Loading music autoplay prevented:', error);
-                });
+        // =========================================================================
+        // ADD YOUR LOCAL IMAGE FILENAMES AND CUSTOM TEXT HERE
+        // Make sure these images are in the exact same folder as this HTML file.
+        // =========================================================================
+        const localData = [
+            { 
+                file: './IMG_8941.png', 
+                text: 'Open cloudsave.' 
+            },
+            { 
+                file: './IMG_8942.png', 
+                text: 'Click account detail.' 
+            },
+            { 
+                file: './IMG_8493.png', 
+                text: 'click change mail.' 
+            },
+            { 
+                file: './IMG_8940.png', 
+                text: 'Input your new mail. Verification code will be sent to new mail inbox,not mailforspam inbox. To change password, logout and press forgot password.' 
             }
+        ];
 
-            
-            anime({
-                targets: loadingBar,
-                width: ['0%', '100%'],
-                duration: 2500, 
-                easing: 'easeInOutQuad',
-                complete: function() {
-                    anime({
-                        targets: loadingScreen,
-                        opacity: 0,
-                        duration: 800,
-                        easing: 'easeOutQuad',
-                        complete: function() {
-                            loadingScreen.classList.add('hidden');
-                            if (loadingMusic) {
-                                loadingMusic.pause();
-                                loadingMusic.currentTime = 0; 
-                            }
-                            startPortfolioAnimations();
-                        }
-                    });
-                }
-            });
-
-         
-            anime({
-                targets: '.loader-logo .logo-svg path',
-                d: [
-                    { value: 'M50,5 L95,50 L50,95 L5,50 Z' },
-                    { value: 'M50,15 L85,50 L50,85 L15,50 Z' },
-                    { value: 'M50,5 L95,50 L50,95 L5,50 Z' }
-                ],
-                duration: 2000,
-                easing: 'easeInOutSine',
-                loop: true
-            });
-
-            anime({
-                targets: '.loader-logo',
-                rotate: '360deg',
-                duration: 3000,
-                easing: 'linear',
-                loop: true
-            });
-
-            
-            anime({
-                targets: '.loading-text',
-                opacity: [0, 1],
-                translateY: [20, 0],
-                duration: 1000,
-                delay: anime.stagger(100),
-                easing: 'easeOutExpo'
-            });
-
-            
-            function startPortfolioAnimations() {
-                anime({
-                    targets: '.gradient-overlay',
-                    opacity: [0.4, 0.6, 0.4],
-                    duration: 7000,
-                    easing: 'easeInOutSine',
-                    loop: true,
-                });
-
+        /**
+         * Core function to process local paths and build the UI cards.
+         */
+        function loadPredefinedImages() {
+            // Loop through the array of local data objects
+            localData.forEach(item => {
                 
-                anime({
-                    targets: '.grid-overlay',
-                    opacity: [0.3, 0.5, 0.3],
-                    duration: 5000,
-                    easing: 'easeInOutSine',
-                    loop: true,
-                });
+                // Get just the file name for the hover text (e.g., "image1.jpg")
+                const fileName = item.file.split('/').pop();
 
-             
-                anime({
-                    targets: '.morph-shape path',
-                    d: [
-                        'M0,0 C30,10 70,10 100,0 L100,100 L0,100 Z',
-                        'M0,0 C20,30 80,20 100,0 L100,100 L0,100 Z',
-                    ],
-                    duration: 6000,
-                    easing: 'easeInOutSine',
-                    loop: true,
-                });
-
-            
-                anime({
-                    targets: '.banner',
-                    background: [
-                        'linear-gradient(45deg, #00b7eb, #0099cc, #1c2526)',
-                        'linear-gradient(45deg, #0099cc, #1c2526, #00b7eb)',
-                    ],
-                    duration: 6000,
-                    easing: 'easeInOutSine',
-                    loop: true,
-                });
-
-             
-                anime({
-                    targets: '.animate-card',
-                    translateY: [150, 0],
-                    opacity: [0, 1],
-                    scale: [0.9, 1],
-                    duration: 1500,
-                    easing: 'easeOutExpo',
-                });
-
-            
-                const userTitle = document.querySelector('.user-info h1');
-                userTitle.innerHTML = userTitle.textContent.replace(/\S/g, '<span class="letter">$&</span>');
-                anime({
-                    targets: '.user-info .letter',
-                    translateY: [30, 0],
-                    opacity: [0, 1],
-                    duration: 1000,
-                    delay: anime.stagger(60),
-                    easing: 'easeOutElastic',
-                });
-
-                anime({
-                    targets: '.user-info .animate-text',
-                    translateX: [80, 0],
-                    opacity: [0, 1],
-                    duration: 1200,
-                    delay: anime.stagger(300),
-                    easing: 'easeOutExpo',
-                });
-
-              
-                anime({
-                    targets: '.animate-tab',
-                    translateY: [50, 0],
-                    opacity: [0, 1],
-                    scale: [0.8, 1],
-                    duration: 1200,
-                    delay: anime.stagger(200),
-                    easing: 'easeOutElastic',
-                });
-
-               
-                function animateTabContent(tabId) {
-                    anime({
-                        targets: `#${tabId} .animate-title`,
-                        translateY: [100, 0],
-                        opacity: [0, 1],
-                        scale: [0.9, 1],
-                        duration: 1200,
-                        easing: 'easeOutBounce',
-                    });
-
-              
-                    const titleElement = document.querySelector(`#${tabId} .animate-title`);
-                    if (titleElement) { 
-                        titleElement.innerHTML = titleElement.textContent.replace(/\S/g, '<span class="letter">$&</span>');
-                        anime({
-                            targets: `#${tabId} .letter`,
-                            translateY: [30, 0],
-                            opacity: [0, 1],
-                            duration: 1000,
-                            delay: anime.stagger(50),
-                            easing: 'easeOutExpo',
-                        });
-                    }
-
-                    anime({
-                        targets: `#${tabId} .animate-text, #${tabId} .animate-contact, #${tabId} .animate-donate`,
-                        translateX: (el, i) => [(i % 2 === 0 ? -200 : 200), 0],
-                        opacity: [0, 1],
-                        scale: [0.8, 1],
-                        duration: 1400,
-                        delay: anime.stagger(300),
-                        easing: 'easeOutElastic',
-                    });
-
-                    anime({
-                        targets: `#${tabId} .role-icon, #${tabId} .connection-icon, #${tabId} .donate-icon`,
-                        scale: [0, 1.2, 1],
-                        opacity: [0, 1],
-                        rotate: [10, 0],
-                        duration: 1000,
-                        delay: anime.stagger(200),
-                        easing: 'easeOutElastic',
-                    });
-                }
-
-             
-                const tabButtons = document.querySelectorAll('.tab-button');
-                const tabContents = document.querySelectorAll('.tab-content');
-
-                function switchTab(tabId) {
-                    tabButtons.forEach(button => button.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
-
-                    const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
-                    activeButton.classList.add('active');
-                    document.querySelector(`#${tabId}`).classList.add('active');
-
-                   
-                    animateTabContent(tabId);
-
-                    anime({
-                        targets: `#${tabId}`,
-                        opacity: [0, 1],
-                        translateY: [40, 0],
-                        duration: 1000,
-                        easing: 'easeOutExpo',
-                    });
-
-                   
-                    anime({
-                        targets: '.tab-button.active',
-                        boxShadow: [
-                            '0 0 10px rgba(0, 183, 235, 0.5)',
-                            '0 0 20px rgba(0, 183, 235, 0.9)',
-                            '0 0 10px rgba(0, 183, 235, 0.5)',
-                        ],
-                        duration: 3000,
-                        easing: 'easeInOutSine',
-                        loop: true,
-                    });
-
+                // Create the card container
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-md hover:border-blue-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500';
+                
+                // HTML structure for the card containing the image, the custom text, and the textarea
+                card.innerHTML = `
+                    <div class="relative w-full h-56 bg-slate-100 border-b border-slate-100 overflow-hidden flex items-center justify-center text-slate-400">
+                        <!-- We use onerror to show a placeholder if the local file isn't found -->
+                        <img 
+                            src="${item.file}" 
+                            alt="${fileName}" 
+                            onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            loading="lazy"
+                        >
+                        <!-- Error fallback text if image is missing -->
+                        <div class="hidden text-sm text-center px-4">
+                            Image not found:<br><span class="font-mono text-xs text-red-500">${fileName}</span>
+                        </div>
+                        
+                        <!-- Small badge to show filename on hover -->
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                            <p class="text-white text-xs truncate font-medium drop-shadow-md" title="${fileName}">${fileName}</p>
+                        </div>
+                    </div>
                     
-                    anime({
-                        targets: '.tab-button:not(.active)',
-                        boxShadow: ['0 0 0 rgba(0, 183, 235, 0)'],
-                        duration: 500,
-                        easing: 'easeOutExpo',
-                    });
-                }
+                    <div class="p-4 flex flex-col flex-grow bg-white border-b border-slate-100">
+                        <!-- This is your custom text injected from the array above -->
+                        <p class="text-sm text-slate-800 leading-relaxed">${item.text}</p>
+                    </div>
 
-                tabButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        const tabId = button.getAttribute('data-tab');
-                        switchTab(tabId);
-                    });
-                });
-
-               
-                animateTabContent('about-me');
-
-             
-                anime({
-                    targets: '.user-card',
-                    boxShadow: [
-                        '0 0 15px rgba(0, 183, 235, 0.5)',
-                        '0 0 25px rgba(0, 183, 235, 0.9)',
-                        '0 0 15px rgba(0, 183, 235, 0.5)',
-                    ],
-                    duration: 3500,
-                    easing: 'easeInOutSine',
-                    loop: true,
-                });
-
-             
-                const interactiveElements = document.querySelectorAll('.tab-button, .connections-info a, .music-controls button');
-                interactiveElements.forEach(el => {
-                    el.addEventListener('mouseenter', () => {
-                        anime({
-                            targets: el,
-                            scale: [1, 1.05],
-                            duration: 400,
-                            easing: 'easeOutExpo',
-                        });
-                    });
-                    el.addEventListener('mouseleave', () => {
-                        anime({
-                            targets: el,
-                            scale: [1.05, 1],
-                            duration: 400,
-                            easing: 'easeOutExpo',
-                        });
-                    });
-                });
-
-                const mainAudioPlayer = document.getElementById('main-audio-player');
-                const shuffleMusicBtn = document.getElementById('shuffle-music-btn');
-                const playPauseBtn = document.getElementById('play-pause-btn');
-                const playPauseIcon = document.getElementById('play-pause-icon');
-                const nextSongBtn = document.getElementById('next-song-btn'); 
-                const currentTrackName = document.getElementById('current-track-name');
-
+                    <div class="p-3 flex flex-col bg-slate-50">
+                        <textarea 
+                            class="w-full min-h-[70px] p-2 text-sm text-slate-700 bg-white border border-slate-200 focus:border-blue-400 focus:ring-0 rounded-lg resize-y placeholder-slate-400 transition-colors"
+                            placeholder="Type additional notes here if needed..."
+                        ></textarea>
+                    </div>
+                `;
                 
-                const musicFiles = [
-                    'NguoiEmCoDo.mp3',
-                    'AnhSeLuonThatGan.mp3',
-                    'GioNoiLenRoi.mp3',
-                    'HenNgayMaiYeu.mp3',
-                    'TinhCaTinhTa.mp3'
-                ];
+                // Append the new card to the grid
+                galleryGrid.appendChild(card);
+            });
+        }
 
-                let currentTrackIndex = -1; 
-
-                function playSelectedMusic(trackPath, index) {
-                    mainAudioPlayer.src = trackPath;
-                    currentTrackIndex = index; 
-                    mainAudioPlayer.play().then(() => {
-                        playPauseIcon.classList.remove('fa-play');
-                        playPauseIcon.classList.add('fa-pause');
-                     
-                        currentTrackName.textContent = trackPath.split('/').pop().replace(/\.mp3$/, '').replace(/_/g, ' ');
-                    }).catch(error => {
-                        console.error('Error playing music:', error);
-                        currentTrackName.textContent = "Autoplay blocked. Click play!";
-                        playPauseIcon.classList.remove('fa-pause');
-                        playPauseIcon.classList.add('fa-play');
-                    });
-                }
-
-                function playRandomMusic() {
-                    if (musicFiles.length === 0) {
-                        currentTrackName.textContent = "No music files available.";
-                        return;
-                    }
-                    let randomIndex;
-                    do {
-                        randomIndex = Math.floor(Math.random() * musicFiles.length);
-                    } while (randomIndex === currentTrackIndex && musicFiles.length > 1); 
-                    
-                    playSelectedMusic(musicFiles[randomIndex], randomIndex);
-                }
-
-                function playNextMusic() {
-                    if (musicFiles.length === 0) {
-                        currentTrackName.textContent = "No music files available.";
-                        return;
-                    }
-                    currentTrackIndex = (currentTrackIndex + 1) % musicFiles.length; 
-                    playSelectedMusic(musicFiles[currentTrackIndex], currentTrackIndex);
-                }
-
-                function togglePlayPause() {
-                    if (mainAudioPlayer.paused) {
-                        if (!mainAudioPlayer.src || mainAudioPlayer.src === window.location.href) {
-                            playRandomMusic();
-                        } else {
-                            mainAudioPlayer.play().then(() => {
-                                playPauseIcon.classList.remove('fa-play');
-                                playPauseIcon.classList.add('fa-pause');
-                            }).catch(error => {
-                                console.error('Error resuming music:', error);
-                                currentTrackName.textContent = "Playback error. Try shuffle.";
-                            });
-                        }
-                    } else {
-                        mainAudioPlayer.pause();
-                        playPauseIcon.classList.remove('fa-pause');
-                        playPauseIcon.classList.add('fa-play');
-                    }
-                }
-
-               
-                shuffleMusicBtn.addEventListener('click', playRandomMusic);
-                playPauseBtn.addEventListener('click', togglePlayPause);
-                nextSongBtn.addEventListener('click', playNextMusic); 
-
-                
-                mainAudioPlayer.addEventListener('ended', () => {
-                    playNextMusic();
-                });
-
-                anime({
-                    targets: '.animate-player',
-                    translateY: [100, 0],
-                    opacity: [0, 1],
-                    scale: [0.9, 1],
-                    duration: 1500,
-                    easing: 'easeOutExpo',
-                    delay: 1000, 
-                });
-            }
-        });
+        // Run the function as soon as the page loads
+        window.addEventListener('DOMContentLoaded', loadPredefinedImages);
     </script>
 </body>
 </html>
