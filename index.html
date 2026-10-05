@@ -29,50 +29,46 @@
 </head>
 <body class="min-h-screen text-slate-800 flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8">
 
+    <!-- ADDED: The missing gallery container with responsive grid styling -->
+    <div class="w-full max-w-7xl mb-8">
+        <h1 class="text-3xl font-bold text-center mb-8 text-slate-800">Mail Update Instructions</h1>
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </div>
+
     <script>
         const galleryGrid = document.getElementById('gallery-grid');
 
         // =========================================================================
         // ADD YOUR LOCAL IMAGE FILENAMES AND CUSTOM TEXT HERE
-        // Make sure these images are in the exact same folder as this HTML file.
         // =========================================================================
         const localData = [
             { 
-                file: './IMG_8941.png', 
+                file: './IMG_8941.jpg', 
                 text: 'Open cloudsave.' 
             },
             { 
-                file: './IMG_8942.png', 
+                file: './IMG_8942.jpg', 
                 text: 'Click account detail.' 
             },
             { 
-                file: './IMG_8493.png', 
-                text: 'click change mail.' 
+                file: './IMG_8493.jpg', 
+                text: 'Click change mail.' 
             },
             { 
                 file: './IMG_8940.png', 
-                text: 'Input your new mail. Verification code will be sent to new mail inbox,not mailforspam inbox. To change password, logout and press forgot password.' 
+                text: 'Input your new mail. Verification code will be sent to new mail inbox, not mailforspam inbox. To change password, logout and press forgot password.' 
             }
         ];
 
-        /**
-         * Core function to process local paths and build the UI cards.
-         */
         function loadPredefinedImages() {
-            // Loop through the array of local data objects
             localData.forEach(item => {
-                
-                // Get just the file name for the hover text (e.g., "image1.jpg")
                 const fileName = item.file.split('/').pop();
 
-                // Create the card container
                 const card = document.createElement('div');
                 card.className = 'bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-md hover:border-blue-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500';
                 
-                // HTML structure for the card containing the image, the custom text, and the textarea
                 card.innerHTML = `
                     <div class="relative w-full h-56 bg-slate-100 border-b border-slate-100 overflow-hidden flex items-center justify-center text-slate-400">
-                        <!-- We use onerror to show a placeholder if the local file isn't found -->
                         <img 
                             src="${item.file}" 
                             alt="${fileName}" 
@@ -80,19 +76,16 @@
                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             loading="lazy"
                         >
-                        <!-- Error fallback text if image is missing -->
                         <div class="hidden text-sm text-center px-4">
                             Image not found:<br><span class="font-mono text-xs text-red-500">${fileName}</span>
                         </div>
                         
-                        <!-- Small badge to show filename on hover -->
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
                             <p class="text-white text-xs truncate font-medium drop-shadow-md" title="${fileName}">${fileName}</p>
                         </div>
                     </div>
                     
                     <div class="p-4 flex flex-col flex-grow bg-white border-b border-slate-100">
-                        <!-- This is your custom text injected from the array above -->
                         <p class="text-sm text-slate-800 leading-relaxed">${item.text}</p>
                     </div>
 
@@ -104,12 +97,10 @@
                     </div>
                 `;
                 
-                // Append the new card to the grid
                 galleryGrid.appendChild(card);
             });
         }
 
-        // Run the function as soon as the page loads
         window.addEventListener('DOMContentLoaded', loadPredefinedImages);
     </script>
 </body>
